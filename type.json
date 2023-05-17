@@ -1,0 +1,21 @@
+{
+  "id": "Number",
+  "title": "String",
+  "summary": "String",
+  "content": "String",
+  "countOfQuiz": "Number",
+  "quiz": [
+    {
+      "id": "Number",
+      "question": "String",
+      "options": [
+        { "seq": "Number", "option": "String" },
+        { "seq": "Number", "option": "String" },
+        { "seq": "Number", "option": "String" },
+        { "seq": "Number", "option": "String" }
+      ],
+      "answer": "Number",
+      "explanation": "String"
+    }
+  ]
+}
