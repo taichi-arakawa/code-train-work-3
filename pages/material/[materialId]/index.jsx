@@ -1,12 +1,7 @@
 import React from "react";
-
-import { Layout, Space, Typography, Button } from "antd";
+import { Button } from "antd";
 import { Textbook } from "../../../components/Textbook";
 import { BaseLayout } from "/components/Layout";
-
-const { Title } = Typography;
-
-const { Header, Footer, Content } = Layout;
 
 export const getServerSideProps = async ({ params }) => {
   const response = await fetch(
@@ -16,20 +11,19 @@ export const getServerSideProps = async ({ params }) => {
     }
   );
   const res = await response.json();
-  console.log(res);
   return {
     props: {
-      data: res,
+      data: res.text,
+      id: params.materialId,
     },
   };
 };
 
-export default function Post({ data }) {
+export default function Post({ data, id }) {
   return (
-    <BaseLayout>
-      <h1>{data.title}</h1>
+    <BaseLayout pageTitle={data.title}>
       <Textbook content={data.content} />
-      <Button type="link" href={`${data.id}/quiz/1`}>
+      <Button type="link" href={`${id}/quiz/1`} style={{ margin: "10px" }}>
         テストを受ける
       </Button>
     </BaseLayout>

@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { List } from "antd";
+import { List, Menu, Empty } from "antd";
 import { BaseLayout } from "../components/Layout";
 import { BookTwoTone } from "@ant-design/icons";
 
@@ -9,7 +9,6 @@ export const getServerSideProps = async () => {
     method: "GET",
   });
   const res = await response.json();
-  // console.log(res);
   return {
     props: {
       data: res,
@@ -18,18 +17,18 @@ export const getServerSideProps = async () => {
 };
 
 export default function Home({ data }) {
-  //console.log(data);
   return (
-    <BaseLayout>
+    <BaseLayout pageTitle="コンテンツ">
       <List
-        pagination={"bottom"}
         dataSource={data}
         renderItem={(item) => (
           <List.Item>
             <List.Item.Meta
               avatar={<BookTwoTone style={{ fontSize: "40px" }} />}
-              title={<Link href={`material/${item.id}`}>{item.title}</Link>}
-              description={item.summary}
+              title={
+                <Link href={`material/${item.id}`}>{item.data.title}</Link>
+              }
+              description={item.data.summary}
             />
           </List.Item>
         )}

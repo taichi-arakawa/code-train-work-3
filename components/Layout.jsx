@@ -1,56 +1,80 @@
 import React from "react";
-
-import { Layout, Space } from "antd";
-import { SiderBar } from "./SiderBar";
+import Image from "next/image";
+import { Layout, theme } from "antd";
 import Link from "next/link";
-
 const { Header, Footer, Content, Sider } = Layout;
-const headerStyle = {
-  textAlign: "center",
-  color: "#fff",
-  height: 64,
-  paddingInline: 50,
-  lineHeight: "64px",
-  backgroundColor: "#7dbcea",
-};
-const contentStyle = { padding: "20px", backgroundColor: "#fff" };
 const siderStyle = {
   textAlign: "center",
   lineHeight: "120px",
-  color: "#fff",
+  color: "#FFF",
   backgroundColor: "#3ba0e9",
 };
 const footerStyle = {
   textAlign: "center",
-  color: "#fff",
-  backgroundColor: "#7dbcea",
 };
 
-export const BaseLayout = ({ children }) => {
+export const BaseLayout = ({ children, sideBar, pageTitle }) => {
+  const {
+    token: { colorBgContainer },
+  } = theme.useToken();
   return (
-    <Space
-      direction="vertical"
+    <Layout
       style={{
-        width: "100%",
-        height: "100%",
+        minHeight: "100vh",
       }}
-      size={[0, 48]}
     >
+      <Sider
+        style={siderStyle}
+        // collapsible
+        // collapsed={collapsed}
+        // onCollapse={(value) => setCollapsed(value)}
+        // style={siderStyle}
+      >
+        <Link href="/">
+          <div style={{ margin: "20px 0", textAlign: "center" }}>
+            <Image
+              src="/logo_background.svg"
+              width={64}
+              height={64}
+              alt="My avatar"
+            />
+          </div>
+        </Link>
+
+        {sideBar}
+      </Sider>
       <Layout>
-        <Header style={headerStyle}>
-          <Link href="/">HTML Train</Link>
+        {/* <Avatar icon={<UserOutlined />} /> */}
+        <Header
+          style={{
+            padding: "0px 40px",
+            fontSize: "30px",
+            fontWeight: "bold",
+            background: colorBgContainer,
+          }}
+        >
+          {pageTitle && pageTitle}
         </Header>
-        <Layout>
-          <Sider style={siderStyle}>
-            Quiz
-            <SiderBar number={10} />
-          </Sider>
-          <Content style={contentStyle}>{children}</Content>
-        </Layout>
+        <Content
+          style={{
+            margin: "24px 16px 0",
+          }}
+        >
+          <div
+            style={{
+              padding: 24,
+              minHeight: 360,
+              background: colorBgContainer,
+            }}
+          >
+            {children}
+          </div>
+        </Content>
+
         <Footer style={footerStyle}>
           &copy; Track BootCamp Open 2023 Group-K
         </Footer>
       </Layout>
-    </Space>
+    </Layout>
   );
 };

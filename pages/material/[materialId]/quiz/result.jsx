@@ -17,17 +17,18 @@ export const getServerSideProps = async ({ params }) => {
   return {
     props: {
       material: res,
+      materialId: params.materialId,
     },
   };
 };
 
-export default function Post({ material }) {
+export default function Post({ materialId, material }) {
   const router = useRouter();
 
   const handleClick = (e) => {
     const firstQuizId = material.quiz[0].id;
     e.preventDefault();
-    router.push(`/material/${material.id}/quiz/${firstQuizId}`);
+    router.push(`/material/${materialId}/quiz/${firstQuizId}`);
   };
   return (
     <BaseLayout>

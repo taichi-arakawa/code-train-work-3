@@ -3,7 +3,7 @@
 // }
 
 export const Textbook = ({ content }) => {
-  console.log(content);
+  // console.log(content);
   return (
     <div
       dangerouslySetInnerHTML={{
