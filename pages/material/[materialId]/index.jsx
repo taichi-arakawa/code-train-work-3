@@ -1,34 +1,36 @@
 import React from "react";
 import { Button } from "antd";
+import prisma from "../../../lib/prisma";
 import { Textbook } from "../../../components/Textbook";
 import { BaseLayout } from "/components/Layout";
 
 export const getServerSideProps = async ({ params }) => {
-  const response = await fetch(
-    `${process.env.BASE_FETCH_URL}/api/texts/${params.materialId}`,
-    {
-      method: "GET",
-    }
-  );
-  const res = await response.json();
-  return {
-    props: {
-      hasQuiz: res.quiz,
-      data: res.text,
-      id: params.materialId,
+  const material = await prisma.material.findUnique({
+    where: {
+      id: Number(params?.materialId),
     },
+    include: {
+      quiz: true,
+    },
+  });
+  return {
+    props: { material },
   };
 };
 
-export default function Post({ hasQuiz, data, id }) {
-  console.log(hasQuiz);
+export default function Post({ material }) {
+  console.log(material);
   return (
-    <BaseLayout pageTitle={data.title}>
-      <Textbook content={data.content} />
+    <BaseLayout pageTitle={material.title}>
+      <Textbook content={material.content} />
       <div style={{ margin: "30px 0px" }}>
         <h2>テスト/クイズ</h2>
-        {hasQuiz.length > 0 ? (
-          <Button type="link" href={`${id}/quiz/1`} style={{ margin: "10px" }}>
+        {material.quiz.length != 0 ? (
+          <Button
+            type="link"
+            href={`${material.id}/quiz/1`}
+            style={{ margin: "10px" }}
+          >
             テストを受ける
           </Button>
         ) : (

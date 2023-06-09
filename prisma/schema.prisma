@@ -1,0 +1,42 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Material {
+  id      Int     @id @default(autoincrement())
+  title   String  @unique
+  summary String?
+  content String
+  quiz    Quiz[]
+}
+
+model Quiz {
+  id          Int          @id @default(autoincrement())
+  seq         Int
+  question    String
+  answer      Int
+  explanation String
+  material    Material     @relation(fields: [materialId], references: [id])
+  materialId  Int
+  Options     QuizOption[]
+
+  @@unique([materialId, seq])
+}
+
+model QuizOption {
+  id     Int    @id @default(autoincrement())
+  seq    Int
+  option String
+  quiz   Quiz   @relation(fields: [quizId], references: [id])
+  quizId Int
+
+  @@unique([quizId, seq])
+}
