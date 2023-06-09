@@ -14,8 +14,6 @@ export const getServerSideProps = async ({ params }) => {
   const res = await response.json();
 
   const quiz = res.quiz.find((q) => q.id == params.quizId);
-  console.log("[quizid.jsx]", res);
-  console.log(res.quiz, "quiz");
   return {
     props: {
       data: quiz,
@@ -56,7 +54,6 @@ export default function Post({ data, material, materialId, countOfQuiz }) {
   const [showed, setShowed] = useState(false);
 
   const changeValue = (e) => {
-    //console.log(e.target.value);
     setValue(e.target.value);
   };
 
@@ -118,7 +115,7 @@ export default function Post({ data, material, materialId, countOfQuiz }) {
         前の問題
       </Button>
 
-      <Button type="primary" onClick={showAnswer} disabled={!showed}>
+      <Button type="primary" onClick={showAnswer} disabled={showed}>
         解答する
       </Button>
 
@@ -126,7 +123,6 @@ export default function Post({ data, material, materialId, countOfQuiz }) {
         style={{ margin: "0 10px" }}
         type="primary"
         onClick={pushNextPage}
-        disabled={showed}
       >
         次の問題
       </Button>

@@ -13,19 +13,28 @@ export const getServerSideProps = async ({ params }) => {
   const res = await response.json();
   return {
     props: {
+      hasQuiz: res.quiz,
       data: res.text,
       id: params.materialId,
     },
   };
 };
 
-export default function Post({ data, id }) {
+export default function Post({ hasQuiz, data, id }) {
+  console.log(hasQuiz);
   return (
     <BaseLayout pageTitle={data.title}>
       <Textbook content={data.content} />
-      <Button type="link" href={`${id}/quiz/1`} style={{ margin: "10px" }}>
-        テストを受ける
-      </Button>
+      <div style={{ margin: "30px 0px" }}>
+        <h2>テスト/クイズ</h2>
+        {hasQuiz.length > 0 ? (
+          <Button type="link" href={`${id}/quiz/1`} style={{ margin: "10px" }}>
+            テストを受ける
+          </Button>
+        ) : (
+          <>このコンテンツにはテスト・クイズの設定はありません。</>
+        )}
+      </div>
     </BaseLayout>
   );
 }
